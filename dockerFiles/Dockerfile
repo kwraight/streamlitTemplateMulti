@@ -14,15 +14,6 @@ COPY core/*.py ./code/core/
 COPY corePages/*.py ./code/corePages/
 COPY userPages/ ./code/userPages/
 
-# fudge for CERN image
-RUN mkdir /.streamlit
-COPY temp_id  /.streamlit/.stable_random_id
-RUN chmod 777 /.streamlit/.stable_random_id
-RUN chmod -R 777 /code/
-
-# run as not root
-RUN adduser appuser
-USER appuser
 
 WORKDIR code
 
