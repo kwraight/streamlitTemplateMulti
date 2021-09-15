@@ -43,7 +43,6 @@ The procedure is as follows:
 1. make a ''userPages'' sub-directory
 
 2. add files to theme directories
-  * add number suffix to order pages: e.g. _page1.py_ name will be first in sidebar selection.
 
 ---
 
@@ -69,7 +68,7 @@ build image:
 
 > docker build . -f dockerFiles/Dockerfile -t new-app
 
-The build will copy files in the _userPages_ directory into the image and use these as content for the webApp.
+The build will copy directories and files in the _userPages_ directory into the image and use these as content for the webApp.
 
 * run container from image (mapping ports):
 
