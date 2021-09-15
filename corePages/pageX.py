@@ -9,10 +9,33 @@ from annotated_text import annotated_text, annotation
 import os
 import sys
 import core.stInfrastructure as infra
+import importlib
+
+from st_radial import st_radial
+from link_button import link_button
+
+
+
+
 
 ################
 ### Useful functions
 ################
+def ReadRequirements():
+    try:
+        with open(os.getcwd()+"/requirements.txt") as req:
+            st.write("From requirements...")
+            for line in req.readlines():
+                st.write(line.strip())
+    except FileNotFoundError:
+        st.write("No requirements file found.")
+
+def CheckModule(name):
+    try:
+        i = importlib.import_module(name)
+        st.write("module '"+name+"' version:",i.__version__)
+    except ModuleNotFoundError:
+        st.write("module '"+name+"' not found")
 
 def display_state_values():
 
@@ -81,5 +104,14 @@ class Pagex(Page):
                     state.__delattr__(mk)
                 except AttributeError:
                     pass
+
+        st.write("---")
+
+        st.write("### Module checks")
+        mod=st.text_input("Check module version:",value="streamlit")
+        CheckModule(mod)
+        if st.button("Check requirements file?"):
+            ReadRequirements()
+
 
         EasterEgg()
