@@ -104,8 +104,8 @@ class App:
         ### small print
         st.sidebar.markdown("---")
         st.sidebar.markdown("*small print*:")
-        st.sidebar.markdown("[git repository](https://github.com/kwraight/streamlitTemplate)")
-        st.sidebar.markdown("[docker repository](https://hub.docker.com/repository/docker/kwraight/template-app)")
+        st.sidebar.markdown("[git repository](https://github.com/kwraight/streamlitTemplateMulti)")
+        st.sidebar.markdown("[docker repository](https://hub.docker.com/repository/docker/kwraight/multitemplate-app)")
         st.sidebar.markdown("streamlitTemplate: "+infra.Version())
 
         ### get page
