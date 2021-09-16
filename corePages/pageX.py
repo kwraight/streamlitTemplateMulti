@@ -47,7 +47,9 @@ def display_state_values():
         st.session_state['Broom Cupboard']={}
 
     myKeys=[x for x in st.session_state.keys()]
-    st.write(myKeys)
+    if st.session_state.debug:
+        st.write("Found keys in session_state:")
+        st.write(myKeys)
     for mk in myKeys:
         if mk=="debug": continue
         st.write(f"**{mk}** information")
