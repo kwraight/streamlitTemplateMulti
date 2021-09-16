@@ -16,9 +16,10 @@ def toggle_debug():
 
 class App:
 
-    def __init__(self, name, title):
+    def __init__(self, name, title, smalls):
         self.name = name
         self.title = title
+        self.smalls = smalls
         self.state = {}
 
         self.init_themes()
@@ -104,9 +105,13 @@ class App:
         ### small print
         st.sidebar.markdown("---")
         st.sidebar.markdown("*small print*:")
-        st.sidebar.markdown("[git repository](https://github.com/kwraight/streamlitTemplateMulti)")
-        st.sidebar.markdown("[docker repository](https://hub.docker.com/repository/docker/kwraight/multitemplate-app)")
         st.sidebar.markdown("streamlitTemplate: "+infra.Version())
+        for k,v in self.smalls.items():
+            if k in ['git','docker']: # repositories
+                st.sidebar.markdown("["+k+" repository]("+v+")")
+            else:
+                st.sidebar.markdown(v)
+
 
         ### get page
         self.pages[name].main()
