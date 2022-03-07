@@ -82,12 +82,16 @@ class App:
 
 
         ### mini-state summary
-        if st.sidebar.button("State Summary"):
-            # st.write(dir(state))
-            myKeys=[x for x in st.session_state.keys()]
-            for mk in myKeys:
-                if mk=="broom": continue
+        showKeys = st.sidebar.checkbox("Show page history")
+        if showKeys:
+            mykeys=[x for x in st.session_state.keys()]
+            # st.sidebar.markdown(myatts)
+            for mk in mykeys:
                 st.sidebar.markdown(f"**{mk}** defined")
+            if st.sidebar.button("Clear Selections"):
+                for mk in mykeys:
+                    if mk=="broom" or mk=="debug": continue
+                    del st.session_state[mk]
 
         ### debug toggle
         # debug = st.checkbox(label="Toggle debug", key='debug', on_change=toggle_debug)
