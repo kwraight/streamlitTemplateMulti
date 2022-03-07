@@ -2,9 +2,7 @@
 import streamlit as st
 from core.Page import Page
 ### custom
-from urllib import request
 import json
-from annotated_text import annotated_text, annotation
 ###
 import os
 import sys
@@ -58,25 +56,6 @@ def display_state_values():
             st.write(st.session_state[mk])
 
 
-### get API response from endpoint
-def GetResponse(endStr):
-    api_endpoint = endStr
-    api_response = json.load(request.urlopen(api_endpoint))
-    return api_response
-
-
-def EasterEgg():
-    ### wee bit of fun
-    if st.session_state.debug:
-        st.write(":egg: Easter Egg")
-        if st.button("Get a quote"):
-            quote=GetResponse("https://favqs.com/api/qotd")
-            if quote:
-                annotated_text(
-                (quote['quote']['body'],"","#8ef"),
-                "\n",
-                (quote['quote']['author'],"","#afa"),
-                )
 
 #####################
 ### main part
@@ -108,5 +87,17 @@ class Pagex(Page):
         if st.button("Check requirements file?"):
             ReadRequirements()
 
+        if st.session_state.debug:
+            st.write(":egg: Easter Egg")
+            if st.button("Get a quote"):
+                infra.GetQuote()
 
-        EasterEgg()
+        if st.session_state.debug:
+            st.write(":egg: Easter Egg")
+            if st.button("Get a QOTD"):
+                infra.GetQOTD()
+
+        if st.session_state.debug:
+            st.write(":egg: Easter Egg")
+            if st.button("Get a historical fact for this date"):
+                infra.GetDateFact()
