@@ -194,36 +194,47 @@ def GetResponse(endStr):
 # Get a quote
 def GetQOTD():
     myQuote = GetResponse("https://favqs.com/api/qotd")
-    if myQuote:
-        annotated_text(
-        (myQuote['quote']['body'],"","#8ef"),
-        "\n",
-        (myQuote['quote']['author'],"","#afa"),
-        )
-    st.write("credit: [FavQuotes](https://favqs.com)")
+    return {'body':myQuote['quote']['body'], 'suffix':myQuote['quote']['author'], 'credit':"[FavQuotes](https://favqs.com)"}
+    # if myQuote:
+    #     annotated_text(
+    #     (myQuote['quote']['body'],"","#8ef"),
+    #     "\n",
+    #     (myQuote['quote']['author'],"","#afa"),
+    #     )
+    # st.write("credit: [FavQuotes](https://favqs.com)")
 
 def GetQuote(names=None):
     if names==None:
         names=['imre lakatos','paul feyerabend','thomas kuhn','karl popper']
     myQuote = random.choice( quote(random.choice(names)) )
-    if myQuote:
-        annotated_text(
-        (myQuote['quote'],"","#8ef"),
-        "\n",
-        (myQuote['author'],"","#afa"),
-        )
-    st.write("credit: [quote package](https://pypi.org/project/quote/)")
+    return {'body':myQuote['quote'], 'suffix':myQuote['author'], 'credit':"[quote package](https://pypi.org/project/quote/)"}
+    # if myQuote:
+    #     annotated_text(
+    #     (myQuote['quote'],"","#8ef"),
+    #     "\n",
+    #     (myQuote['author'],"","#afa"),
+    #     )
+    # st.write("credit: [quote package](https://pypi.org/project/quote/)")
 
 def GetDateFact(infoType=None):
     if infoType not in ['Events','Births','Deaths']:
         infoType= random.choice(['Events','Births','Deaths'])
     myReps = GetResponse("https://history.muffinlabs.com/date")
     myRep = random.choice( myReps['data'][infoType] )
-    if myRep:
-        annotated_text(
-        (myRep['text'],"","#8ef"),
-        "\n",
-        (infoType,"","#afa"),
-        (myRep['year'],"","#afa"),
-        )
-    st.write("credit: [muffinlabs](https://history.muffinlabs.com)")
+    return {'body':myRep['text'], 'suffix':myRep['year']+"("+infoType+")", 'credit':"[muffinlabs](https://history.muffinlabs.com)"}
+    # if myRep:
+    #     annotated_text(
+    #     (myRep['text'],"","#8ef"),
+    #     "\n",
+    #     (infoType,"","#afa"),
+    #     (myRep['year'],"","#afa"),
+    #     )
+    # st.write("credit: [muffinlabs](https://history.muffinlabs.com)")
+
+def ShowInfo(infoDict):
+    annotated_text(
+    (infoDict['body'],"","#8ef"),
+    "\n",
+    (infoDict['suffix'],"","#afa"),
+    )
+    st.write("credit:",infoDict['credit'])

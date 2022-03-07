@@ -90,14 +90,14 @@ class Pagex(Page):
         if st.session_state.debug:
             st.write(":egg: Easter Egg")
             if st.button("Get a quote"):
-                infra.GetQuote()
+                infra.ShowInfo(infra.GetQuote())
 
         if st.session_state.debug:
             st.write(":egg: Easter Egg")
             if st.button("Get a QOTD"):
-                infra.GetQOTD()
+                infra.ShowInfo(infra.GetQOTD())
 
         if st.session_state.debug:
             st.write(":egg: Easter Egg")
             if st.button("Get a historical fact for this date"):
-                infra.GetDateFact()
+                infra.ShowInfo(infra.GetDateFact())
