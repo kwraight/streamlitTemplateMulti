@@ -3,6 +3,12 @@ import streamlit as st
 ###
 import base64
 import pandas as pd
+import json
+###
+from urllib import request
+from annotated_text import annotated_text, annotation
+from quote import quote
+import random
 
 ################
 ### Useful functions
@@ -72,7 +78,7 @@ def ComponentInfo(user,comp):
 ###
 
 def Version():
-    return ("13-09-21")
+    return ("03-03-22")
 
 def ToggleButton(myDict, myKey, txt):
     try:
@@ -174,3 +180,50 @@ def Slider(myDict, myKey, myMin, myMax, txt):
         myDict[myKey]=st.slider(txt,min_value=myMin,max_value=myMax,value=myMin)
     except ValueError: # default min value
         myDict[myKey]=st.slider(txt,min_value=myMin,max_value=myMax,value=myMin)
+
+###
+### EasterEggs
+###
+
+### get API response from endpoint
+def GetResponse(endStr):
+    api_endpoint = endStr
+    api_response = json.load(request.urlopen(api_endpoint))
+    return api_response
+
+# Get a quote
+def GetQOTD():
+    myQuote = GetResponse("https://favqs.com/api/qotd")
+    if myQuote:
+        annotated_text(
+        (myQuote['quote']['body'],"","#8ef"),
+        "\n",
+        (myQuote['quote']['author'],"","#afa"),
+        )
+    st.write("credit: [FavQuotes](https://favqs.com)")
+
+def GetQuote(names=None):
+    if names==None:
+        names=['imre lakatos','paul feyerabend','thomas kuhn','karl popper']
+    myQuote = random.choice( quote(random.choice(names)) )
+    if myQuote:
+        annotated_text(
+        (myQuote['quote'],"","#8ef"),
+        "\n",
+        (myQuote['author'],"","#afa"),
+        )
+    st.write("credit: [quote package](https://pypi.org/project/quote/)")
+
+def GetDateFact(infoType=None):
+    if infoType not in ['Events','Births','Deaths']:
+        infoType= random.choice(['Events','Births','Deaths'])
+    myReps = GetResponse("https://history.muffinlabs.com/date")
+    myRep = random.choice( myReps['data'][infoType] )
+    if myRep:
+        annotated_text(
+        (myRep['text'],"","#8ef"),
+        "\n",
+        (infoType,"","#afa"),
+        (myRep['year'],"","#afa"),
+        )
+    st.write("credit: [muffinlabs](https://history.muffinlabs.com)")
