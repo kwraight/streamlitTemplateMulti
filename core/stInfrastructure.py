@@ -48,30 +48,7 @@ def ColourCells(s, df, colName, flip=False):
     else:
         return ['background-color: %s ; color: %s'% (colours[names.index(s[colName])],'black')]*len(df.columns)
 
-###
-### Info.
-###
 
-def ComponentInfo(user,comp):
-    # check comp info.
-    st.write("**Component Information**")
-    st.write("who:*",comp['user'],"*")
-    if comp['user']==user['userIdentity']:
-        st.write(" - **you**")
-    else:
-        st.write(" - **not** you")
-    st.write("what:*",comp['code'],"*")
-    st.write("where:*",comp['location'],"*")
-    if comp['location'] in [x['code'] for x in user['institutions']]:
-        st.write(" - **found** in user institutions")
-    else:
-        st.write(" - **not** found in user institutions")
-    try:
-        st.write(" * shipping destination:",comp['destination']['name'],"(id:"+comp['destination']['id']+")")
-    except TypeError:
-        st.write(" * no shipping destination found")
-    st.write("when:*",comp['cts'],"*")
-    st.write("(why:*","who can say?*)")
 
 ###
 ### Widgets
