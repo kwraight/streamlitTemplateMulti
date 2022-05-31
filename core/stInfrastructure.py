@@ -55,13 +55,15 @@ def ColourCells(s, df, colName, flip=False):
 ###
 
 def Version():
-    return ("03-03-22")
+    return ("31-05-22")
+
 
 def ToggleButton(myDict, myKey, txt):
     try:
         myDict[myKey] = st.checkbox(txt, value=myDict[myKey])
     except KeyError:
         myDict[myKey] = st.checkbox(txt, value=False)
+
 
 def TextBox(myDict, myKey, txt, pwd=False):
     if pwd:
@@ -78,6 +80,7 @@ def TextBox(myDict, myKey, txt, pwd=False):
             myDict[myKey] = st.text_input(label=txt)
         except ValueError:
             myDict[myKey] = st.text_input(label=txt)
+
 
 def SelectBox(myDict, myKey, opts, txt, lamKey=None):
     if len(opts)<1:
@@ -105,6 +108,7 @@ def SelectBox(myDict, myKey, opts, txt, lamKey=None):
         except ValueError:
             myDict[myKey]=st.selectbox(txt, sortedOpts, format_func=lambda x: x[lamKey] )
 
+
 ### pandas dataframe variation
 def SelectBoxDf(myDict, myKey, df, txt, colName):
     if colName not in list(df.columns):
@@ -120,35 +124,62 @@ def SelectBoxDf(myDict, myKey, df, txt, colName):
         val=st.selectbox(txt, sortedOpts )
     myDict[myKey]=df.query(colName+'=="'+val+'"')
 
-def MultiSelect(myDict, myKey, opts, txt):
-    if len(opts)<1:
-        st.write("No options found for "+myKey)
-        st.stop()
-    sortedOpts=opts
-    if type(opts[0])!=type({}) and type(opts[0])!=type([]):
-        sortedOpts=sorted(opts)
-    try:
-        myDict[myKey]=st.multiselect(txt, sortedOpts, default=myDict[myKey] )
-    except KeyError:
-        myDict[myKey]=st.multiselect(txt, sortedOpts )
-    except ValueError:
-        myDict[myKey]=st.multiselect(txt, sortedOpts )
-    except st.StreamlitAPIException:
-        myDict[myKey]=st.multiselect(txt, sortedOpts )
 
-def Radio(myDict, myKey, opts, txt):
+def MultiSelect(myDict, myKey, opts, txt, lamKey=None):
     if len(opts)<1:
         st.write("No options found for "+myKey)
         st.stop()
     sortedOpts=opts
     if type(opts[0])!=type({}) and type(opts[0])!=type([]):
         sortedOpts=sorted(opts)
-    try:
-        myDict[myKey]=st.radio(txt, sortedOpts, index=sortedOpts.index(myDict[myKey]))
-    except KeyError:
-        myDict[myKey]=st.radio(txt, sortedOpts)
-    except ValueError:
-        myDict[myKey]=st.radio(txt, sortedOpts)
+
+    if lamKey==None:
+        try:
+            myDict[myKey]=st.multiselect(txt, sortedOpts, default=myDict[myKey] )
+        except KeyError:
+            myDict[myKey]=st.multiselect(txt, sortedOpts )
+        except ValueError:
+            myDict[myKey]=st.multiselect(txt, sortedOpts )
+        except st.StreamlitAPIException:
+            myDict[myKey]=st.multiselect(txt, sortedOpts )
+    else:
+        #st.write("for",lamKey,"and",myDict[myKey],":",opts.index(myDict[myKey]))
+        if type(opts[0])==type({}):
+            sortedOpts=sorted(opts, key=lambda k: k[lamKey])
+        try:
+            myDict[myKey]=st.multiselect(txt, sortedOpts, format_func=lambda x: x[lamKey], default=myDict[myKey] )
+        except KeyError:
+            myDict[myKey]=st.multiselect(txt, sortedOpts, format_func=lambda x: x[lamKey] )
+        except ValueError:
+            myDict[myKey]=st.multiselect(txt, sortedOpts, format_func=lambda x: x[lamKey] )
+
+
+def Radio(myDict, myKey, opts, txt, lamKey=None):
+    if len(opts)<1:
+        st.write("No options found for "+myKey)
+        st.stop()
+    sortedOpts=opts
+    if type(opts[0])!=type({}) and type(opts[0])!=type([]):
+        sortedOpts=sorted(opts)
+
+    if lamKey==None:
+        try:
+            myDict[myKey]=st.radio(txt, sortedOpts, index=sortedOpts.index(myDict[myKey]))
+        except KeyError:
+            myDict[myKey]=st.radio(txt, sortedOpts)
+        except ValueError:
+            myDict[myKey]=st.radio(txt, sortedOpts)
+    else:
+        #st.write("for",lamKey,"and",myDict[myKey],":",opts.index(myDict[myKey]))
+        if type(opts[0])==type({}):
+            sortedOpts=sorted(opts, key=lambda k: k[lamKey])
+        try:
+            myDict[myKey]=st.radio(txt, sortedOpts, format_func=lambda x: x[lamKey], index=sortedOpts.index(myDict[myKey]) )
+        except KeyError:
+            myDict[myKey]=st.radio(txt, sortedOpts, format_func=lambda x: x[lamKey] )
+        except ValueError:
+            myDict[myKey]=st.radio(txt, sortedOpts, format_func=lambda x: x[lamKey] )
+
 
 def Slider(myDict, myKey, myMin, myMax, txt):
     try:
