@@ -1,6 +1,7 @@
 ### standard
 import streamlit as st
 from core.ThemePage import Page
+import core.stInfrastructure as infra
 ### custom
 
 #####################
@@ -15,3 +16,8 @@ class Page1(Page):
         pageDict=super().main()
 
         st.write("## Hello A1")
+
+        st.write("### Quote of the session:")
+        if "gotQuote" not in pageDict.keys() or st.button("Get Quote"):
+            pageDict['gotQuote']=infra.GetQuote()
+        infra.ShowInfo(pageDict['gotQuote'])
