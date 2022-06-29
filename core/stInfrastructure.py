@@ -240,9 +240,14 @@ def GetDateFact(infoType=None):
     # st.write("credit: [muffinlabs](https://history.muffinlabs.com)")
 
 def ShowInfo(infoDict):
-    annotated_text(
-    (infoDict['body'],"","#8ef"),
-    "\n",
-    (infoDict['suffix'],"","#afa"),
-    )
+    body='<p style="font-family:Courier; color:Blue; font-size: 16px;">'+infoDict['body']+'</p>'
+    st.write(body, unsafe_allow_html=True)
+    suffix='<p style="font-family:Courier; color:Green; font-size: 16px;">'+infoDict['suffix']+'</p>'
+    st.write(suffix, unsafe_allow_html=True)
     st.write("credit:",infoDict['credit'])
+
+# def ShowInfo(infoDict):
+#     annotated_text( (infoDict['body'],"","#8ef"),
+#     "\n",
+#     (infoDict['suffix'],"","#afa") )
+#     st.write("credit:",infoDict['credit'])
