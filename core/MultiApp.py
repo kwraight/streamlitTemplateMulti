@@ -111,8 +111,8 @@ class App:
         st.sidebar.markdown("*small print*:")
         st.sidebar.markdown("streamlitTemplate: "+infra.Version())
         for k,v in self.smalls.items():
-            if k in ['git','docker']: # repositories
-                st.sidebar.markdown("["+k+" repository]("+v+")")
+            if "http" in v: # links
+                st.sidebar.markdown("["+k+"]("+v+")")
             else:
                 st.sidebar.markdown(v)
 
