@@ -27,6 +27,8 @@ def CheckModule(name):
         st.write("module '"+name+"' version:",i.__version__)
     except ModuleNotFoundError:
         st.write("module '"+name+"' not found")
+    except AttributeError:
+        st.write("module '"+name+"' has no version to read")
 
 def display_state_values():
 
