@@ -42,7 +42,9 @@ for k,v in returning.items():
             __all__[k.split('.')[1]].append(getattr(v,pageName))
         except KeyError:
             __all__[k.split('.')[1]] = [getattr(v,pageName)]
-    except AttributeError and TypeError:
+    except AttributeError:
+        pass
+    except TypeError:
         pass
 
 #print(__all__)
