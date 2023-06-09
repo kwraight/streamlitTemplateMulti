@@ -15,15 +15,16 @@ class Page:
             st.write("_ page name:",self.name,"_")
             st.write("_ file name:",inspect.getfile(self.__class__),"_")
         st.write("---")
-        if st.session_state.debug:
-            for i in self.instructions:
-                if "*" in i[0:3]:
-                    st.write(i)
-                else:
-                    st.write("  *",i)
-        else:
-            st.write(" * toggle debug for details")
-        st.write("---")
+        if type(self.instructions)==type([]):
+            if st.session_state.debug:
+                for i in self.instructions:
+                    if "*" in i[0:3]:
+                        st.write(i)
+                    else:
+                        st.write("  *",i)
+            else:
+                st.write(" * toggle debug for details")
+            st.write("---")
 
         # debug check
         if st.session_state.debug:
