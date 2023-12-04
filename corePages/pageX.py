@@ -12,6 +12,10 @@ import importlib
 ################
 ### Useful functions
 ################
+def GetPythonVersion():
+    st.write(f"Python: {sys.version}")
+
+
 def ReadRequirements():
     try:
         with open(os.getcwd()+"/requirements.txt") as req:
@@ -83,7 +87,9 @@ class Pagex(Page):
 
         st.write("---")
 
-        st.write("### Module checks")
+        st.write("### Version checks")
+        GetPythonVersion()
+
         mod=st.text_input("Check module version:",value="streamlit")
         CheckModule(mod)
         if st.button("Check requirements file?"):

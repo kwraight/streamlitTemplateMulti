@@ -55,7 +55,7 @@ def ColourCells(s, df, colName, flip=False):
 ###
 
 def Version():
-    return ("04-05-23")
+    return ("15-11-23")
 
 
 def ToggleButton(myDict, myKey, txt):
@@ -214,8 +214,12 @@ def GetQOTD():
 def GetQuote(names=None):
     if names==None:
         names=['imre lakatos','paul feyerabend','thomas kuhn','karl popper']
-    myQuote = random.choice( quote(random.choice(names)) )
-    return {'body':myQuote['quote'], 'suffix':myQuote['author'], 'credit':"[quote package](https://pypi.org/project/quote/)"}
+    try:
+        myQuote = random.choice( quote(random.choice(names)) )
+        return {'body':myQuote['quote'], 'suffix':myQuote['author'], 'credit':"[quote package](https://pypi.org/project/quote/)"}
+    except TypeError:
+        return {'body':"Problem with quote generator :(", 'suffix':"Apologies", 'credit':"[quote package](https://pypi.org/project/quote/)"}
+
     # if myQuote:
     #     annotated_text(
     #     (myQuote['quote'],"","#8ef"),
