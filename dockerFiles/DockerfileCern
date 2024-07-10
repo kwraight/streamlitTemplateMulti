@@ -14,6 +14,13 @@ COPY core/*.py ./code/core/
 COPY corePages/*.py ./code/corePages/
 COPY userPages/ ./code/userPages/
 
+# add build date and anouncements
+COPY .git/refs/heads/master gitRef.txt
+RUN true \ 
+    # && git ls-remote https://gitlab.cern.ch/wraight/itk-web-apps --short HEAD | awk '{ print $1}' > gitRef.txt \ 
+    && sed -i 's/COMMITCODE/'$(cat gitRef.txt | head -c7)'/g' mainApp.py \
+    && sed -i 's/VERSION_DATE/'$(date +%d-%m-%y)'/g' ./code/core/stInfrastructure.py 
+
 # fudge for CERN image
 RUN mkdir /.streamlit
 COPY temp_id  /.streamlit/.stable_random_id
