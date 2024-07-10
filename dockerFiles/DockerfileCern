@@ -15,7 +15,7 @@ COPY corePages/*.py ./code/corePages/
 COPY userPages/ ./code/userPages/
 
 # add build date and anouncements
-COPY .git/refs/heads/master gitRef.txt
+COPY .git/refs/heads/main gitRef.txt
 RUN true \ 
     # && git ls-remote https://gitlab.cern.ch/wraight/itk-web-apps --short HEAD | awk '{ print $1}' > gitRef.txt \ 
     && sed -i 's/COMMITCODE/'$(cat gitRef.txt | head -c7)'/g' mainApp.py \
