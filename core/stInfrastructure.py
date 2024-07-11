@@ -55,7 +55,7 @@ def ColourCells(s, df, colName, flip=False):
 ###
 
 def Version():
-    return ("VERSION_DATE")
+    return {'date':"VERSION_DATE",'sha':"VERSION_SHA"}
 
 
 def ToggleButton(myDict, myKey, txt):
