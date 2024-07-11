@@ -108,8 +108,10 @@ class App:
 
         ### small print
         st.sidebar.markdown("---")
-        st.sidebar.markdown("*small print*:")
-        st.sidebar.markdown("streamlitTemplate: "+infra.Version())
+        st.sidebar.markdown("**Small Print**")
+        st.sidebar.markdown("_Code Heirarchy_")
+        st.sidebar.markdown(f"streamlitTemplate: \n - {infra.Version()['date']} ({infra.Version()['sha']})")
+        st.sidebar.markdown("_Additional Information_")
         for k,v in self.smalls.items():
             if "http" in v: # links
                 st.sidebar.markdown("["+k+"]("+v+")")
