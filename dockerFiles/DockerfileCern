@@ -19,7 +19,8 @@ COPY .git/refs/heads/main gitRef.txt
 RUN true \ 
     # && git ls-remote https://gitlab.cern.ch/wraight/itk-web-apps --short HEAD | awk '{ print $1}' > gitRef.txt \ 
     && sed -i 's/COMMITCODE/'$(cat gitRef.txt | head -c7)'/g' ./code/mainApp.py \
-    && sed -i 's/VERSION_DATE/'$(date +%d-%m-%y)'/g' ./code/core/stInfrastructure.py 
+    && sed -i 's/VERSION_DATE/'$(date +%d-%m-%y)'/g' ./code/core/stInfrastructure.py \
+    && sed -i 's/VERSION_SHA/'$(cat gitRef.txt | head -c7)'/g' ./code/core/stInfrastructure.py 
 
 # fudge for CERN image
 RUN mkdir /.streamlit
