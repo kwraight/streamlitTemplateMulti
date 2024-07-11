@@ -6,7 +6,7 @@ EXPOSE 8501
 
 # copy over and install packages
 COPY requirements.txt /code/requirements.txt
-RUN pip3 install -r /core/requirements.txt
+RUN pip3 install -r /code/requirements.txt
 
 # copying everything over
 COPY *.py ./code/
@@ -14,8 +14,25 @@ COPY core/*.py ./code/core/
 COPY corePages/*.py ./code/corePages/
 COPY userPages/ ./code/userPages/
 
+# add build date and anouncements
+COPY .git/refs/heads/main gitRef.txt
+RUN true \ 
+    # && git ls-remote https://gitlab.cern.ch/wraight/itk-web-apps --short HEAD | awk '{ print $1}' > gitRef.txt \ 
+    && sed -i 's/COMMITCODE/'$(cat gitRef.txt | head -c7)'/g' ./code/mainApp.py \
+    && sed -i 's/VERSION_DATE/'$(date +%d-%m-%y)'/g' ./code/core/stInfrastructure.py \
+    && sed -i 's/VERSION_SHA/'$(cat gitRef.txt | head -c7)'/g' ./code/core/stInfrastructure.py 
 
-WORKDIR code
+# fudge for CERN image
+RUN mkdir /.streamlit
+COPY temp_id  /.streamlit/.stable_random_id
+RUN chmod 777 /.streamlit/.stable_random_id
+RUN chmod -R 777 /code/
+
+# # run as not root
+# RUN adduser appuser
+# USER appuser
+
+WORKDIR /code
 
 # match exposed port
 CMD ["streamlit", "run", "mainApp.py","--server.port=8501"]

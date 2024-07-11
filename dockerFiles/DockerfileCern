@@ -32,7 +32,7 @@ RUN chmod -R 777 /code/
 RUN adduser appuser
 USER appuser
 
-WORKDIR code
+WORKDIR /code
 
 # match exposed port
 CMD ["streamlit", "run", "mainApp.py","--server.port=8501"]
