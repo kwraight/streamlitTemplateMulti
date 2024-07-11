@@ -4,4 +4,4 @@ streamlit==1.14.0
 quote==2.*
 protobuf==3.19.*
 altair==4.*
-numpy==1.17.*
+numpy==1.25.*
