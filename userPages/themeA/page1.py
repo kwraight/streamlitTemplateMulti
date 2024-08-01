@@ -21,3 +21,9 @@ class Page1(Page):
         if "gotQuote" not in pageDict.keys() or st.button("Get Quote"):
             pageDict['gotQuote']=infra.GetQuote()
         infra.ShowInfo(pageDict['gotQuote'])
+
+        if st.checkbox("Check cookies?"):
+            cookDict=infra.get_all_cookies()
+            st.write(cookDict)
+
+
