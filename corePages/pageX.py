@@ -80,11 +80,12 @@ class Pagex(Page):
         if st.button("Clear state"):
             for mk in [x for x in st.session_state.keys()]:
                 if mk=="debug": continue
+                st.write(f" - clearing: {mk}")
                 try:
-                    state.__delattr__(mk)
+                    st.session_state.__delattr__(mk)
+                    st.write(f"   - cleared ☑")
                 except AttributeError:
                     pass
-
         st.write("---")
 
         st.write("### Version checks")
