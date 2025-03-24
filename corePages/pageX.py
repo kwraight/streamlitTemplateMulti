@@ -55,12 +55,20 @@ def display_state_values():
         st.write("Found keys in session_state:")
         st.write(myKeys)
     for mk in myKeys:
-        if mk=="debug": continue
-        st.write(f"**{mk}** information")
-        infra.ToggleButton(st.session_state['Broom Cupboard'],'show_'+mk,f"Show *{mk}* information")
-        if st.session_state['Broom Cupboard']['show_'+mk]:
-            st.write(st.session_state[mk])
-
+        if mk not in ["debug","info","history"]: # no deletes
+            st.write(f"__{str(mk)}__ information")
+            if st.checkbox(f"Show {str(mk)} information"):
+                # infra.ToggleButton(st.session_state['Broom Cupboard'],'show_'+mk,f"Show *{mk}* information")
+                #   if st.session_state['Broom Cupboard']['show_'+mk]:
+                st.write(st.session_state[mk])
+                if st.checkbox(f"delete {str(mk)} info?"):
+                    if mk not in ["Broom Cupboard","myClient","Authenticate","debug","info","history"]: # no deletes
+                        if st.button(f"confirm {str(mk)} delete?"):
+                            del st.session_state[mk]
+                    else:
+                        st.write("No _delete_ permitted")
+        else:
+            st.write(f"__{str(mk)}__ is set:", st.session_state[mk])
 
 
 #####################
@@ -77,9 +85,9 @@ class Pagex(Page):
         display_state_values()
 
         st.write("## :exclamation: Clear all state settings")
-        if st.button("Clear state"):
+        if st.button("Clear all cache info"):
             for mk in [x for x in st.session_state.keys()]:
-                if mk=="debug": continue
+                if mk in ["debug","history","info"]: continue
                 st.write(f" - clearing: {mk}")
                 try:
                     st.session_state.__delattr__(mk)
