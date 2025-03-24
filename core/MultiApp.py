@@ -10,10 +10,6 @@ import core.stInfrastructure as infra
 ### useful functions
 #####################
 
-def toggle_debug():
-    st.session_state.debug = not st.session_state.debug
-
-
 class App:
 
     def __init__(self, name, title, smalls):
@@ -64,21 +60,27 @@ class App:
         name = st.sidebar.radio("Select page: ", tuple(self.pages.keys()))
         st.sidebar.markdown("---")
 
-        try:
-            if st.session_state.debug:
-                st.sidebar.markdown("on page: "+name)
-        except AttributeError:
-            pass
+        # try:
+        #     if st.session_state.debug:
+        #         st.sidebar.markdown("on page: "+name)
+        # except AttributeError:
+        #     pass
 
         ### check session state attribute, set if none
         try:
-            if name in st.session_state[theme].keys():
-                if st.session_state.debug: st.sidebar.markdown("session_state \'"+theme+"."+name+"\' OK")
-            else:
+            if name not in st.session_state[theme].keys():
                 st.session_state[theme][name]={}
-                if st.session_state.debug: st.sidebar.markdown("session_state \'"+theme+"."+name+"\' defined")
         except KeyError:
             st.session_state[theme]={name:{}}
+
+        # try:
+        #     if name in st.session_state[theme].keys():
+        #         if st.session_state.debug: st.sidebar.markdown("session_state \'"+theme+"."+name+"\' OK")
+        #     else:
+        #         st.session_state[theme][name]={}
+        #         if st.session_state.debug: st.sidebar.markdown("session_state \'"+theme+"."+name+"\' defined")
+        # except KeyError:
+        #     st.session_state[theme]={name:{}}
 
 
         ### mini-state summary
@@ -94,16 +96,14 @@ class App:
                     del st.session_state[mk]
 
         ### debug toggle
-        # debug = st.checkbox(label="Toggle debug", key='debug', on_change=toggle_debug)
-        # st.markdown("debug: "+str(debug))
-        # st.markdown("session: "+str(st.session_state.debug))
-        try:
-            debug = st.sidebar.checkbox("Toggle debug",value=st.session_state.debug)
-        except AttributeError:
-            debug = st.sidebar.checkbox("Toggle debug")
-        if debug:
-            st.session_state.debug=True
-        else: st.session_state.debug=False
+        st.session_state.debug=st.sidebar.checkbox("Toggle debug",value=False)
+        # try:
+        #     debug = st.sidebar.checkbox("Toggle debug",value=st.session_state.debug)
+        # except AttributeError:
+        #     debug = st.sidebar.checkbox("Toggle debug")
+        # if debug:
+        #     st.session_state.debug=True
+        # else: st.session_state.debug=False
 
 
         ### small print
