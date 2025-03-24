@@ -68,13 +68,11 @@ class Page:
         if st.session_state.history:
             st.info("⏳ __History Information__")
             mykeys=[x for x in st.session_state.keys()]
+            # st.write(mykeys)
             # st.sidebar.markdown(myatts)
             for mk in mykeys:
                 st.write(f"**{mk}** defined")
-            if st.button("clear history"):
-                for mk in mykeys:
-                    if mk=="broom" or mk=="debug": continue
-                    del st.session_state[mk]
+            st.write("Go to _Broom Cupboard_ to clear history")
 
 
         ########################
