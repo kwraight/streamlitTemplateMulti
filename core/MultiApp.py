@@ -48,17 +48,19 @@ class App:
 #####################
 
     def main(self):
-        st.sidebar.title(self.title)
+        st.sidebar.title(f":telescope: {self.title}")
 
-        ### sidebar
-        st.sidebar.title(":telescope: Kené's WebApp")
+
+        ###########################
+        ### select page
+        ###########################
         st.sidebar.markdown("---")
-        theme = st.sidebar.radio("Select theme: ", tuple(self.themes))
+        st.sidebar.title("Select Input")
+        theme = st.sidebar.selectbox("Select theme: ", sorted(tuple(self.themes)) )
         #st.sidebar.markdown(self.init_pages(theme))
         self.init_pages(theme)
         #st.sidebar.markdown("themes: \n"+",".join(self.pages.keys()))
-        name = st.sidebar.radio("Select page: ", tuple(self.pages.keys()))
-        st.sidebar.markdown("---")
+        name = st.sidebar.radio("Select page: ", sorted(tuple(self.pages.keys())) )
 
         # try:
         #     if st.session_state.debug:
@@ -73,42 +75,27 @@ class App:
         except KeyError:
             st.session_state[theme]={name:{}}
 
-        # try:
-        #     if name in st.session_state[theme].keys():
-        #         if st.session_state.debug: st.sidebar.markdown("session_state \'"+theme+"."+name+"\' OK")
-        #     else:
-        #         st.session_state[theme][name]={}
-        #         if st.session_state.debug: st.sidebar.markdown("session_state \'"+theme+"."+name+"\' defined")
-        # except KeyError:
-        #     st.session_state[theme]={name:{}}
 
-
-        ### mini-state summary
-        showKeys = st.sidebar.checkbox("Show page history")
-        if showKeys:
-            mykeys=[x for x in st.session_state.keys()]
-            # st.sidebar.markdown(myatts)
-            for mk in mykeys:
-                st.sidebar.markdown(f"**{mk}** defined")
-            if st.sidebar.button("Clear Selections"):
-                for mk in mykeys:
-                    if mk=="broom" or mk=="debug": continue
-                    del st.session_state[mk]
-
-        ### debug toggle
-        st.session_state.debug=st.sidebar.checkbox("Toggle debug",value=False)
-        # try:
-        #     debug = st.sidebar.checkbox("Toggle debug",value=st.session_state.debug)
-        # except AttributeError:
-        #     debug = st.sidebar.checkbox("Toggle debug")
-        # if debug:
-        #     st.session_state.debug=True
-        # else: st.session_state.debug=False
-
-
-        ### small print
+        ###########################
+        ### toggle options
+        ###########################
         st.sidebar.markdown("---")
-        st.sidebar.markdown("**Small Print**")
+        st.sidebar.title("Toggle Options")
+
+        # debug
+        st.session_state.debug=st.sidebar.checkbox("Toggle debug",value=False)
+
+        # info toggle
+        st.session_state.info=st.sidebar.checkbox("Toggle info.",value=False)
+
+        # history toggle
+        st.session_state.history=st.sidebar.checkbox("Toggle history", value=False)
+
+        ###########################
+        ### small print
+        ###########################
+        st.sidebar.markdown("---")
+        st.sidebar.title("Small Print")
         st.sidebar.markdown("_Code Heirarchy_")
         st.sidebar.markdown(f"streamlitTemplate: \n - {infra.Version()['date']} ({infra.Version()['sha']})")
         st.sidebar.markdown("_Additional Information_")
