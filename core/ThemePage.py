@@ -1,5 +1,8 @@
 import streamlit as st
 import inspect
+import os
+from pathlib import Path
+import pandas as pd
 
 class Page:
 
@@ -17,7 +20,9 @@ class Page:
         st.write("---")
         st.write("#### Preface area")
 
+        ########################
         # debug check
+        ########################
         if st.session_state.debug:
             st.info("▶ __Debug is on__")
         else:
@@ -45,23 +50,64 @@ class Page:
             st.write("---")
             st.stop()
 
-        if st.session_state.debug:
-            st.write("#### ℹ Instructions")
+        ########################
+        # info check
+        ########################
+        if st.session_state.info:
+            st.info("ℹ __Information__")
+            st.write("Page Instructions:")
             for i in self.instructions:
                 if "*" in i[0:3]:
                     st.write(i)
                 else:
                     st.write("  *",i)
 
+        ########################
+        # history check
+        ########################
+        if st.session_state.history:
+            st.info("⏳ __History Information__")
+            mykeys=[x for x in st.session_state.keys()]
+            # st.sidebar.markdown(myatts)
+            for mk in mykeys:
+                st.write(f"**{mk}** defined")
+            if st.button("clear history"):
+                for mk in mykeys:
+                    if mk=="broom" or mk=="debug": continue
+                    del st.session_state[mk]
+
+
+        ########################
+        # hack file
+        ########################
         if st.checkbox("Upload hack file?"):
             st.info("This is a _beta_ feature and may not be implemented on this page.")
             st.write("#### Upload _formatted_ file")
-            uploaded_file = st.file_uploader("Choose a file", type=['csv'])
-            if uploaded_file is not None:
+            hack_file = st.file_uploader("Choose a file", type=['csv'])
+            if hack_file is not None:
                 st.write(" - file uploaded ✅")
-                st.session_state[key][self.name]['hack_file'] = uploaded_file
+                pageDict['df_hack']=pd.read_csv(hack_file, names=list('abcdefghij'))
+                pageDict['df_hack']=pageDict['df_hack'].dropna(how='all', axis=1)
+
+                new_header = pageDict['df_hack'].iloc[0] #grab the first row for the header
+                pageDict['df_hack'] = pageDict['df_hack'][1:] #take the data less the header row
+                pageDict['df_hack'].columns = new_header #set the header row as the df header
+
+                if st.checkbox("Show hack input?"):
+                    st.write("Hack input")
+                    st.write(pageDict['df_hack'])
+
             else:
                 st.write("No file uploaded")
+                filePath=os.path.realpath(__file__)
+                exampleFileName="hack_file.csv"
+                if st.session_state.debug:
+                    st.write("looking in:",filePath[:filePath.rfind('/')])
+                    st.write(os.listdir(filePath[:filePath.rfind('/')]))
+                st.download_button(label="Download example", data=Path(filePath[:filePath.rfind('/')]+"/"+exampleFileName).read_text(), file_name=exampleFileName)
+                st.stop()
+
+
         st.write("---")
         
         return pageDict
