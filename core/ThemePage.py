@@ -14,9 +14,9 @@ class Page:
     def main(self):
         ### title and (optional) instructions
         st.title(self.title)
-        if st.session_state.debug:
+        if st.session_state.info:
             st.write(f" - Page name:",self.name)
-            st.write(f" - File name:",inspect.getfile(self.__class__))
+            st.write(f" - Class info:",self.__class__)
         st.write("---")
         st.write("#### Preface area")
 
@@ -31,6 +31,7 @@ class Page:
         # check page info. defined
         if st.session_state.debug:
             st.write("Search for cached object:")
+        fileName=self.__class__.__module__
         pageDict=None
         ### check session state attribute, stop if none
         for key in st.session_state.keys():
@@ -40,15 +41,22 @@ class Page:
                 if st.session_state.debug:
                     st.write(f" - no _{key}_ in session state")
                 continue
-            if self.name in st.session_state[key].keys():
+            if fileName in st.session_state[key].keys():
                 if st.session_state.debug:
-                    st.write(f" - Caching object found: st.session_state[\'{key}\'][\'{self.name}\']")
-                pageDict=st.session_state[key][self.name]
+                    st.write(f" - Caching object found: st.session_state[\'{key}\'][\'{fileName}\']")
+                pageDict=st.session_state[key][fileName]
         
         if pageDict is None:
-            st.write("no caching object defined!")
+            st.error("no caching object defined!")
+            if st.session_state.debug:
+                st.write("I am:",self.name,"in",fileName)
+                st.write("session state object:",st.session_state)
             st.write("---")
             st.stop()
+        else:
+            if st.session_state.info or st.session_state.debug:
+                st.success(" - Caching object found")
+                st.write(pageDict)
 
         ########################
         # info check
