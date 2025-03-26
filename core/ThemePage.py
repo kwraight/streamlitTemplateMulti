@@ -46,10 +46,19 @@ class Page:
                     st.write(f" - Caching object found: st.session_state[\'{key}\'][\'{fileName}\']")
                 pageDict=st.session_state[key][fileName]
         
+        ### if no cache found - check setup keys
+        if pageDict is None:
+            # check setups
+            if st.session_state.debug:
+                st.write(f"Checking setup keys...")
+            if fileName in st.session_state.keys():
+                pageDict=st.session_state[fileName]
+
+        ### if no cache found - give up
         if pageDict is None:
             st.error("no caching object defined!")
             if st.session_state.debug:
-                st.write("I am:",self.name,"in",fileName)
+                st.write("Could not find",fileName)
                 st.write("session state object:",st.session_state)
             st.write("---")
             st.stop()
