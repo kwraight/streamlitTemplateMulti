@@ -5,11 +5,12 @@ import sys
 # importing modules from other directories
 import importlib.util
 import sys
+import re
 
 
-###########################
-### useful functions
-###########################
+# ###########################
+# ### useful functions
+# ###########################
 
 def SetTheme():
     st.header("Set Theme")
@@ -136,9 +137,53 @@ theme_list = [None]+list(content_dict.keys())
 theme = st.session_state.theme
 
 # and setup pages
-set_page = st.Page(SetTheme, title="Set Theme", icon=":material/logout:")
-settings = st.Page("banana_pages/settings.py", title="Settings", icon=":material/settings:")
-setup_pages = [set_page, settings]
+# select themem page
+setup_pages= [st.Page(SetTheme, title="Set Theme", url_path="setTheme", icon=":material/logout:")]
+# core pages
+cwd = os.getcwd()
+base_dir=cwd+"/corePages"
+pageFiles= sorted([f for f in os.listdir(base_dir) if os.path.isfile(os.path.join(base_dir, f))])
+for pf in pageFiles:
+
+    file_path=f"{base_dir}/{pf}"
+    module_name=pf.replace('.py','')
+    # st.write("module_name",module_name)
+    # st.write("file_path",file_path)
+    spec=importlib.util.spec_from_file_location(module_name,file_path)
+    foo = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(foo)
+    url_name=file_path.split('/')[-1].replace('.py','')
+    title_name=" ".join(re.findall(r'[A-Z]?[a-z]+|[A-Z]+(?=[A-Z]|$)', url_name)).title()
+    # st.write("url_name",url_name)
+    # st.write("url_name",title_name)
+
+    setup_pages.append(
+        st.Page( foo.PageX().main,
+            title=title_name,
+            url_path=url_name,
+            icon=":material/settings:"
+        )
+    )
+
+
+# setup_pages= [
+#     st.Page(SetTheme, title="Set Theme", url_path="setTheme", icon=":material/logout:"),
+#     st.Page("corePages/appSettings.py", title="Settings", url_path="appSettings", icon=":material/settings:")
+# ]
+# file_path="corePages/broomCupboard.py"
+# url_name=file_path.split('/')[-1].replace('.py','')
+# title_name=" ".join(re.findall(r'[A-Z]?[a-z]+|[A-Z]+(?=[A-Z]|$)', url_name)).title()
+# spec=importlib.util.spec_from_file_location("pageX",file_path)
+# foo = importlib.util.module_from_spec(spec)
+# spec.loader.exec_module(foo)
+# setup_pages.append( st.Page(foo.PageX().main, title=title_name, url_path=url_name, icon=":material/settings:") )
+
+### caching for setup pages: urel_path is same as Page.self.__class__.__module__
+for sp in setup_pages:
+    st.write("setup caching for:",sp.url_path)
+    if sp.url_path not in st.session_state.keys():
+        st.session_state[sp.url_path]={}
+
 
 ### navigation dictionary
 nav_dict = {}
@@ -153,17 +198,20 @@ else:
 
 
 ###########################
-### Setup Caching
+### Setup caching for chosen page
 ###########################
 
 # st.sidebar.markdown("---")
 # st.sidebar.write("setup caching for:",pg.title)
 ### check session state attribute, set if none
-try:
-    if pg.title not in st.session_state[theme].keys():
-        st.session_state[theme][pg.title ]={}
-except KeyError:
-    st.session_state[theme]={pg.title:{}}
+# skip empty
+if theme not in [None,"None"]:
+    try:
+        # check keys
+        if pg.title not in st.session_state[theme].keys():
+            st.session_state[theme][pg.title ]={}
+    except KeyError:
+        st.session_state[theme]={pg.title:{}}
 
 
 ###########################
