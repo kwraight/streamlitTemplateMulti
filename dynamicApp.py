@@ -49,29 +49,7 @@ st.sidebar.markdown("### Small Print")
 st.sidebar.markdown("_Code Heirarchy_")
 # st.sidebar.markdown(f"streamlitTemplate: \n - {infra.Version()['date']} ({infra.Version()['sha']})")
 st.sidebar.markdown("_Additional Information_")
-# for k,v in self.smalls.items():
-#     if "http" in v: # links
-#         st.sidebar.markdown("["+k+"]("+v+")")
-#     else:
-#         st.sidebar.markdown(v)
 
-### get pages
-# loop over base directory and get pages from sub-folders
-# cwd = os.getcwd()
-# base_dir=cwd+"/banana_pages"
-# sub_folders= sorted([d for d in os.listdir(base_dir) if os.path.isdir(os.path.join(base_dir, d))])
-# content_dict= {}
-# for sf in sub_folders:
-#     content_dict[sf]=[]
-#     pageFiles= sorted([f for f in os.listdir(base_dir+"/"+sf) if os.path.isfile(os.path.join(base_dir+"/"+sf, f)) and "page" in f])
-#     for pf in pageFiles:
-#         content_dict[sf].append(
-#             st.Page(
-#                 f"{base_dir}/{sf}/{pf}",
-#                 title=f"{pf.replace('.py','')}",
-#                 icon=":material/help:"
-#             )
-#         )
 
 cwd = os.getcwd()
 base_dir=cwd+"/userPages"
@@ -97,34 +75,7 @@ for sf in sub_folders:
                 icon=":material/help:"
             )
         )
-
-# file_path="userPages/themeA/page2.py"
-# module_name="page2"
-# print(module_name)
-# print(file_path)
-# spec=importlib.util.spec_from_file_location(module_name,file_path)
-# # creates a new module based on spec
-# foo = importlib.util.module_from_spec(spec)
-# spec.loader.exec_module(foo)
-
-# def TestPage1():
-#     st.title("This is a test page 1")
-
-# class TestPage2:
-
-#     def __init__(self):
-#         # st.write("some inititalisation")
-#         this="this"
-
-#     def main(self):
-#         st.title("This is a test page 2")
-
-
-
-# content_dict['tester'] = [st.Page(TestPage1, title="test_page1", icon=":material/help:"),
-#                             st.Page(TestPage2().main, title="test_page2", icon=":material/help:"),
-#                             st.Page(foo.Page2().main, title="test_page3", url_path=module_name, icon=":material/help:")]    
-# # content_dict['tester'] = [st.Page("userPages/themeA/page2.py", title="page2", icon=":material/help:")]    
+  
 
 ###########################
 ### Setup Navigation
@@ -166,21 +117,9 @@ for pf in pageFiles:
     )
 
 
-# setup_pages= [
-#     st.Page(SetTheme, title="Set Theme", url_path="setTheme", icon=":material/logout:"),
-#     st.Page("corePages/appSettings.py", title="Settings", url_path="appSettings", icon=":material/settings:")
-# ]
-# file_path="corePages/broomCupboard.py"
-# url_name=file_path.split('/')[-1].replace('.py','')
-# title_name=" ".join(re.findall(r'[A-Z]?[a-z]+|[A-Z]+(?=[A-Z]|$)', url_name)).title()
-# spec=importlib.util.spec_from_file_location("pageX",file_path)
-# foo = importlib.util.module_from_spec(spec)
-# spec.loader.exec_module(foo)
-# setup_pages.append( st.Page(foo.PageX().main, title=title_name, url_path=url_name, icon=":material/settings:") )
-
 ### caching for setup pages: urel_path is same as Page.self.__class__.__module__
 for sp in setup_pages:
-    st.write("setup caching for:",sp.url_path)
+    # st.write("setup caching for:",sp.url_path)
     if sp.url_path not in st.session_state.keys():
         st.session_state[sp.url_path]={}
 
