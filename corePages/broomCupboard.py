@@ -77,7 +77,7 @@ def display_state_values():
 
 class PageX(Page):
     def __init__(self):
-        super().__init__("Broom Cupboard", ":wrench: Broom Cupboard", ['nothing to report'])
+        super().__init__("Broom Cupboard", "🧹 Broom Cupboard", ['nothing to report'])
 
     def main(self):
         super().main()
