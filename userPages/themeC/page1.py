@@ -7,7 +7,7 @@ from core.ThemePage import Page
 ### main part
 #####################
 
-class Page1(Page):
+class PageX(Page):
     def __init__(self):
         super().__init__("pageC1", "Zeroth Page", ['nothing to report'])
 

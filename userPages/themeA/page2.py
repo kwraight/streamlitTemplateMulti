@@ -7,7 +7,7 @@ from core.ThemePage import Page
 ### main part
 #####################
 
-class Page2(Page):
+class PageX(Page):
     def __init__(self):
         super().__init__("pageA2", "Zeroth Page", ['nothing to report'])
 
@@ -15,3 +15,5 @@ class Page2(Page):
         pageDict=super().main()
 
         st.write("## Hello A2")
+
+# Page2().main()
