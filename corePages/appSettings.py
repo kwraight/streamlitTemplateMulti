@@ -8,4 +8,4 @@ class PageX(Page):
     def main(self):
         super().main()
 
-    st.write(f"__Current__ theme: {st.session_state.theme}.")
+        st.write(f"__Current__ theme: {st.session_state.theme}.")
