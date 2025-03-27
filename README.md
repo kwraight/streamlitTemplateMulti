@@ -22,6 +22,7 @@ in *core* directory
 *stInfrastructure*: useful wrappers for streamlit functions
 
 ## Core pages:
+
 in *corePages* directory
 
 *appSettings*: Placeholder for app settings
