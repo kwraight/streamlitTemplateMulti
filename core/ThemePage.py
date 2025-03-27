@@ -116,7 +116,7 @@ class Page:
         ########################
         if st.session_state.history:
             st.info("⏳ __History__")
-            mykeys=[x for x in st.session_state.keys()]
+            mykeys=sorted([x for x in st.session_state.keys()], key=str.casefold)
             # st.write(mykeys)
             # st.sidebar.markdown(myatts)
             for mk in mykeys:
