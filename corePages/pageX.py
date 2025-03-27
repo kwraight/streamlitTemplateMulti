@@ -75,7 +75,7 @@ def display_state_values():
 ### main part
 #####################
 
-class Pagex(Page):
+class PageX(Page):
     def __init__(self):
         super().__init__("Broom Cupboard", ":wrench: Broom Cupboard", ['nothing to report'])
 
