@@ -83,7 +83,7 @@ __run container__
 
 > docker run -p 8501:8501 new-app
 
-* -p argument used to map ports (container:native)
+* -p argument used to map ports (native:container)
 
 Open browser at ''localhost:8501''
 
@@ -95,3 +95,5 @@ This allows changes to files in mounted directory to be propagated to container 
 **NB** this will overwrite any files in linked directory:
 
 > docker run -p 8501:8501 -v $(pwd)/userPages:/code/userPages new-app
+
+* -v argument used to map volumes (native:container)
