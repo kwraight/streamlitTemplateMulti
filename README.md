@@ -24,14 +24,23 @@ in *core* directory
 ## Core pages:
 in *corePages* directory
 
-*pageX*: Debug page _a.k.a._ "Broom Cupboard" containing session state settings
+*appSettings*: Placeholder for app settings
+
+*broomCupboard*: Debug page _a.k.a._ "Broom Cupboard" containing session state cache info
 
 ## User content pages:
+
 in *userPages* directory
 
 *themeA*: two example pages
+
+ - page1 includes some *stInfrastructure* examples
+
 *themeB*: three example pages
+
 *themeC*: one example page
+
+ - page1 includes *hack_file* uploader 
 
 ---
 
@@ -40,9 +49,9 @@ in *userPages* directory
 See example page for template structure.
 The procedure is as follows:
 
-1. make a ''userPages'' sub-directory
+1. make a sub-directory in *userPages* - this will be a new theme
 
-2. add files to theme directories
+2. add files to theme directory
 
 ---
 
@@ -51,7 +60,7 @@ The procedure is as follows:
 Run webApp locally:
 
 * get required libraries:
-> python3 -m pip install -r requirements
+> python3 -m pip install -r requirements.txt
 
 * run streamlit:
 > streamlit run mainApp.py
