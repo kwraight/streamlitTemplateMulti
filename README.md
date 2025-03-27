@@ -73,17 +73,19 @@ Run webApp locally:
 
 Either of two files can be used to build basic templates (structural files):
 
-build image:
+__build image__
 
 > docker build . -f dockerFiles/Dockerfile -t new-app
 
 The build will copy directories and files in the _userPages_ directory into the image and use these as content for the webApp.
 
-* run container from image (mapping ports):
+__run container__
 
 > docker run -p 8501:8501 new-app
 
-* open browser at ''localhost:8501''
+* -p argument used to map ports (container:native)
+
+Open browser at ''localhost:8501''
 
 ---
 
