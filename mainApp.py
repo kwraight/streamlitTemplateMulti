@@ -19,12 +19,15 @@ def SetTheme():
         st.session_state.theme = sel_theme
         st.rerun()
 
+cwd = os.getcwd()
+# print("cwd:",cwd)
+
 ###########################
 ### Get content
 ###########################
 
 ### logo and title
-st.logo("banana.jpeg")
+st.logo(cwd+"/core/banana.png", size="large")
 st.sidebar.title(":telescope: Dynamic App")
 st.sidebar.markdown("Banana Version")
 
@@ -51,7 +54,6 @@ st.sidebar.markdown("_Code Heirarchy_")
 st.sidebar.markdown("_Additional Information_")
 
 
-cwd = os.getcwd()
 base_dir=cwd+"/userPages"
 sub_folders= sorted([d for d in os.listdir(base_dir) if os.path.isdir(os.path.join(base_dir, d))])
 content_dict= {}
