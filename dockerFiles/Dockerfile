@@ -1,5 +1,5 @@
 # base image
-FROM python:3.9.15
+FROM python:3.11.11
 
 # exposing default port for streamlit
 EXPOSE 8501
@@ -10,7 +10,7 @@ RUN pip3 install -r /code/requirements.txt
 
 # copying everything over
 COPY *.py ./code/
-COPY core/*.py ./code/core/
+COPY core/* ./code/core/
 COPY corePages/*.py ./code/corePages/
 COPY userPages/ ./code/userPages/
 
