@@ -14,19 +14,18 @@ class Page:
     def main(self):
         ### title and (optional) instructions
         st.title(self.title)
-        if st.session_state.info:
-            st.write(f" - Page name:",self.name)
-            st.write(f" - Class info:",self.__class__)
         st.write("---")
-        st.write("#### Preface area")
+
+        if any([st.session_state.debug, st.session_state.info, st.session_state.history]):
+            st.write("#### Preface area")
+        else:
+            st.write("ℹ Use sidebar _Toggle Options_ for extra information")
 
         ########################
-        # debug check
+        # debug check & cache setup
         ########################
         if st.session_state.debug:
             st.info("▶ __Debug is on__")
-        else:
-            st.write("Toggle debug for details")
 
         # check page info. defined
         if st.session_state.debug:
@@ -64,14 +63,18 @@ class Page:
             st.stop()
         else:
             if st.session_state.info or st.session_state.debug:
-                st.success(" - Caching object found")
-                st.write(pageDict)
+                st.success("Caching object found")
+                if st.checkbox("Show page cache?"):
+                    st.write(pageDict)
 
         ########################
         # info check
         ########################
         if st.session_state.info:
             st.info("ℹ __Information__")
+            st.write(f" - Page name:",self.name)
+            st.write(f" - Class info:",self.__class__)
+
             st.write("Page Instructions:")
             for i in self.instructions:
                 if "*" in i[0:3]:
@@ -79,48 +82,46 @@ class Page:
                 else:
                     st.write("  *",i)
 
+
+            ### hack file
+            if st.checkbox("Upload hack file?"):
+                st.info("This is a _beta_ feature and may not be implemented on this page.")
+                st.write("#### Upload _formatted_ file")
+                hack_file = st.file_uploader("Choose a file", type=['csv'])
+                if hack_file is not None:
+                    st.write(" - file uploaded ✅")
+                    pageDict['df_hack']=pd.read_csv(hack_file, names=list('abcdefghij'))
+                    pageDict['df_hack']=pageDict['df_hack'].dropna(how='all', axis=1)
+
+                    new_header = pageDict['df_hack'].iloc[0] #grab the first row for the header
+                    pageDict['df_hack'] = pageDict['df_hack'][1:] #take the data less the header row
+                    pageDict['df_hack'].columns = new_header #set the header row as the df header
+
+                    if st.checkbox("Show hack input?"):
+                        st.write("Hack input")
+                        st.write(pageDict['df_hack'])
+
+                else:
+                    st.write("No file uploaded")
+                    filePath=os.path.realpath(__file__)
+                    exampleFileName="hack_file.csv"
+                    if st.session_state.debug:
+                        st.write("looking in:",filePath[:filePath.rfind('/')])
+                        st.write(os.listdir(filePath[:filePath.rfind('/')]))
+                    st.download_button(label="Download example", data=Path(filePath[:filePath.rfind('/')]+"/"+exampleFileName).read_text(), file_name=exampleFileName)
+                    st.stop()
+
         ########################
         # history check
         ########################
         if st.session_state.history:
-            st.info("⏳ __History Information__")
+            st.info("⏳ __History__")
             mykeys=[x for x in st.session_state.keys()]
             # st.write(mykeys)
             # st.sidebar.markdown(myatts)
             for mk in mykeys:
                 st.write(f"**{mk}** defined")
             st.write("Go to _Broom Cupboard_ to clear history")
-
-
-        ########################
-        # hack file
-        ########################
-        if st.checkbox("Upload hack file?"):
-            st.info("This is a _beta_ feature and may not be implemented on this page.")
-            st.write("#### Upload _formatted_ file")
-            hack_file = st.file_uploader("Choose a file", type=['csv'])
-            if hack_file is not None:
-                st.write(" - file uploaded ✅")
-                pageDict['df_hack']=pd.read_csv(hack_file, names=list('abcdefghij'))
-                pageDict['df_hack']=pageDict['df_hack'].dropna(how='all', axis=1)
-
-                new_header = pageDict['df_hack'].iloc[0] #grab the first row for the header
-                pageDict['df_hack'] = pageDict['df_hack'][1:] #take the data less the header row
-                pageDict['df_hack'].columns = new_header #set the header row as the df header
-
-                if st.checkbox("Show hack input?"):
-                    st.write("Hack input")
-                    st.write(pageDict['df_hack'])
-
-            else:
-                st.write("No file uploaded")
-                filePath=os.path.realpath(__file__)
-                exampleFileName="hack_file.csv"
-                if st.session_state.debug:
-                    st.write("looking in:",filePath[:filePath.rfind('/')])
-                    st.write(os.listdir(filePath[:filePath.rfind('/')]))
-                st.download_button(label="Download example", data=Path(filePath[:filePath.rfind('/')]+"/"+exampleFileName).read_text(), file_name=exampleFileName)
-                st.stop()
 
 
         st.write("---")
