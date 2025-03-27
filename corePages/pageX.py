@@ -50,7 +50,7 @@ def display_state_values():
     else:
         st.session_state['Broom Cupboard']={}
 
-    myKeys=[x for x in st.session_state.keys()]
+    myKeys=sorted([x for x in st.session_state.keys()], key=str.casefold)
     if st.session_state.debug:
         st.write("Found keys in session_state:")
         st.write(myKeys)
