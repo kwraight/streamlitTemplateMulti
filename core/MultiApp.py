@@ -8,6 +8,17 @@ import sys
 import re
 
 
+### Page to select theme from input list
+def SelectThemePage():
+    st.header("Set Theme")
+    sel_theme = st.selectbox("Choose your theme", st.session_state.sel_theme_list, index=st.session_state.sel_theme_list.index(None))
+    if sel_theme==None:
+        st.info("Please select theme")
+    else:
+        if st.button(f"Select {sel_theme}"):
+            st.session_state.sel_theme = sel_theme
+            st.rerun()
+
 class App:
 
     def __init__(self, name, title, smalls):
@@ -20,14 +31,6 @@ class App:
     ###########################
     ### useful functions
     ###########################
-
-    ### Page to select theme from input list
-    def SelectThemePage(self, theme_list):
-        st.header("Set Theme")
-        sel_theme = st.selectbox("Choose your theme", theme_list, index=theme_list.index(None))
-        if st.button("Select theme"):
-            st.session_state.theme = sel_theme
-            st.rerun()
 
     ### Get setup pages: from corePages directory
     def GetSetupPages(self):
@@ -130,24 +133,14 @@ class App:
         content_dict = self.GetContentPages()
 
         ### compile themes
-        theme_list = [None]+list(content_dict.keys())
+        if "sel_theme" not in st.session_state.keys():
+            st.session_state.sel_theme=None
+        st.session_state.sel_theme_list = [None]+list(content_dict.keys())
+        theme=st.session_state.sel_theme
     
         ### setup pages        
-        SelectThemePage = st.Page(self.SelectThemePage(theme_list), title="Set Theme", url_path="SelectTheme", icon=":material/logout:")
-        setup_pages = [SelectThemePage]
-        setup_pages =  setup_pages + self.GetSetupPages()
-        ### caching for setup pages: urel_path is same as Page.self.__class__.__module__
-        for sp in setup_pages:
-            # st.write("setup caching for:",sp.url_path)
-            if sp.url_path not in st.session_state.keys():
-                st.session_state[sp.url_path]={}
-
-        # get theme
-        try:
-            theme=st.session_state.theme
-        except AttributeError:
-            st.stop()
-            theme=None
+        selectThemePage = st.Page(SelectThemePage, title="Set Theme", url_path="SelectTheme", icon=":material/logout:")
+        setup_pages =  [selectThemePage] + self.GetSetupPages()
 
         ### make navigation dictionary with theme pages
         nav_dict = {}
@@ -159,12 +152,20 @@ class App:
         if len(nav_dict) > 0:
             pg = st.navigation({"Set-up Pages": setup_pages} | nav_dict)
         else:
-            pg = st.navigation([SelectThemePage])
+            pg = st.navigation([selectThemePage])
         
         
         ###########################
-        ### Setup caching for chosen page
+        ### Setup caching
         ###########################
+        
+        ### caching for setup pages: url_path is same as Page.self.__class__.__module__
+        for sp in setup_pages:
+            # st.write("setup caching for:",sp.url_path)
+            if sp.url_path in [None,"None"]:
+                continue
+            if sp.url_path not in st.session_state.keys():
+                st.session_state[sp.url_path]={}
 
         # st.sidebar.markdown("---")
         # st.sidebar.write("setup caching for:",pg.title)
@@ -177,9 +178,9 @@ class App:
                     st.session_state[theme][pg.title ]={}
             except KeyError:
                 st.session_state[theme]={pg.title:{}}
-        else:
-            st.info("Select a theme to continue")
-            st.stop()
+        # else:
+        #     st.info("Select a theme to continue")
+        #     st.stop()
 
 
         ###########################
