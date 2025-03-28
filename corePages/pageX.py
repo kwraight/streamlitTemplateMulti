@@ -1,6 +1,6 @@
 ### standard
 import streamlit as st
-from core.Page import Page
+from core.CorePage import Page
 ### custom
 import json
 ###
