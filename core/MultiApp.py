@@ -175,7 +175,7 @@ class App:
             try:
                 # check keys
                 if pg.title not in st.session_state[theme].keys():
-                    st.session_state[theme][pg.title ]={}
+                    st.session_state[theme][pg.title]={}
             except KeyError:
                 st.session_state[theme]={pg.title:{}}
         # else:
