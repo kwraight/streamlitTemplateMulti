@@ -37,7 +37,7 @@ class App:
         # core pages
         base_dir=self.cwd+"/corePages"
         setup_pages=[]
-        pageFiles= sorted([f for f in os.listdir(base_dir) if os.path.isfile(os.path.join(base_dir, f))])
+        pageFiles= sorted([f for f in os.listdir(base_dir) if f[-3:]==".py" and os.path.isfile(os.path.join(base_dir, f))] )
         for pf in pageFiles:
 
             file_path=f"{base_dir}/{pf}"
