@@ -44,11 +44,11 @@ def display_state_values():
     if st.session_state.debug:
         st.write("### Debug is on")
 
-    # check page info. defined
-    if "Broom Cupboard" in [i for i in st.session_state.keys()]:
-        if st.session_state.debug: st.write("st.session_state['Broom Cupboard'] defined")
-    else:
-        st.session_state['Broom Cupboard']={}
+    # # check page info. defined
+    # if "Broom Cupboard" in [i for i in st.session_state.keys()]:
+    #     if st.session_state.debug: st.write("st.session_state['Broom Cupboard'] defined")
+    # else:
+    #     st.session_state['Broom Cupboard']={}
 
     myKeys=sorted([x for x in st.session_state.keys()], key=str.casefold)
     if st.session_state.debug:
