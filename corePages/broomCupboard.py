@@ -54,21 +54,22 @@ def display_state_values():
     if st.session_state.debug:
         st.write("Found keys in session_state:")
         st.write(myKeys)
-    for mk in myKeys:
-        if mk not in ["debug","info","history"]: # no deletes
-            st.write(f"__{str(mk)}__ information")
-            if st.checkbox(f"Show {str(mk)} information"):
-                # infra.ToggleButton(st.session_state['Broom Cupboard'],'show_'+mk,f"Show *{mk}* information")
-                #   if st.session_state['Broom Cupboard']['show_'+mk]:
-                st.write(st.session_state[mk])
-                if st.checkbox(f"delete {str(mk)} info?"):
-                    if mk not in ["Broom Cupboard","myClient","Authenticate","debug","info","history"]: # no deletes
-                        if st.button(f"confirm {str(mk)} delete?"):
-                            del st.session_state[mk]
-                    else:
-                        st.write("No _delete_ permitted")
-        else:
-            st.write(f"__{str(mk)}__ is set:", st.session_state[mk])
+
+    st.write("### View cached information")
+    sel_key=st.selectbox("Select cached key:", myKeys, index=myKeys.index("broomCupboard"))
+
+    if sel_key not in ["debug","info","history"]: # no deletes
+        st.write(f"__{str(sel_key)}__ information")
+        if st.checkbox(f"Show {str(sel_key)} information"):
+            st.write(st.session_state[sel_key])
+            if st.checkbox(f"delete {str(sel_key)} info?"):
+                if sel_key not in ["Broom Cupboard","myClient","Authenticate","debug","info","history"]: # no deletes
+                    if st.button(f"confirm {str(sel_key)} delete?"):
+                        del st.session_state[sel_key]
+                else:
+                    st.write("No _delete_ permitted")
+    else:
+        st.write(f"__{str(sel_key)}__ is set:", st.session_state[sel_key])
 
 
 #####################
