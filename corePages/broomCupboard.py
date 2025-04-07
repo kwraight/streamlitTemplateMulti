@@ -85,16 +85,19 @@ class PageX(Page):
 
         display_state_values()
 
-        st.write("## :exclamation: Clear all state settings")
-        if st.button("Clear all cache info"):
-            for mk in [x for x in st.session_state.keys()]:
-                if mk in ["debug","history","info"]: continue
-                st.write(f" - clearing: {mk}")
-                try:
-                    st.session_state.__delattr__(mk)
-                    st.write(f"   - cleared ☑")
-                except AttributeError:
-                    pass
+        st.write("### :exclamation: Clear all state settings")
+        if st.checkbox("Clear all cache info"):
+            st.info("__This will clear all cache information__")
+            if st.button("Clear all cache info"):
+                for mk in [x for x in st.session_state.keys()]:
+                    if mk in ["debug","history","info"]: continue
+                    st.write(f" - clearing: {mk}")
+                    try:
+                        st.session_state.__delattr__(mk)
+                        st.write(f"   - cleared ☑")
+                    except AttributeError:
+                        pass
+        
         st.write("---")
 
         st.write("### Version checks")
