@@ -21,6 +21,10 @@ def SelectThemePage():
         if st.button(f"Select {sel_theme}"):
             st.session_state.sel_theme = sel_theme
             st.rerun()
+    if st.session_state.sel_theme in [None,"None"]:
+        st.warning(f"__Select theme from dropdown__")
+    else:
+        st.success(f"__{st.session_state.sel_theme} selected. Choose page from sidebar__")
 
 class App:
 
@@ -193,9 +197,5 @@ class App:
         ###########################
         try:
             pg.run()
-            if theme in [None,"None"]:
-                st.warning(f"__Select theme from dropdown__")
-            else:
-                st.success(f"__{theme} selected. Choose page from sidebar__")
         except FileNotFoundError:
-            st.success(f"__{theme} selected. Choose page from sidebar.__")
+            pass
