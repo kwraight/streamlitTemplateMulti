@@ -17,9 +17,7 @@ def SelectThemePage():
         st.write("---")
     st.write("### Select Theme")
     sel_theme = st.selectbox("Choose your theme", st.session_state.sel_theme_list, index=st.session_state.sel_theme_list.index(None))
-    if sel_theme==None:
-        st.info("Please select theme")
-    else:
+    if sel_theme is not None:
         if st.button(f"Select {sel_theme}"):
             st.session_state.sel_theme = sel_theme
             st.rerun()
