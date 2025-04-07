@@ -193,5 +193,9 @@ class App:
         ###########################
         try:
             pg.run()
+            if theme in [None,"None"]:
+                st.warning(f"__Select theme from dropdown__")
+            else:
+                st.success(f"__{theme} selected. Choose page from sidebar__")
         except FileNotFoundError:
             st.success(f"__{theme} selected. Choose page from sidebar.__")
