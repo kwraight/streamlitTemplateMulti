@@ -24,10 +24,11 @@ def SelectThemePage():
 
 class App:
 
-    def __init__(self, name, title, smalls):
+    def __init__(self, name, title, smalls, announcement=None):
         self.name = name
         self.title = title
         self.smalls = smalls
+        self.announcement = announcement
         self.cwd = os.getcwd()
         self.state = {}
 
@@ -142,6 +143,7 @@ class App:
         theme=st.session_state.sel_theme
     
         ### setup pages        
+        st.session_state.announcement=self.announcement
         selectThemePage = st.Page(SelectThemePage, title="Set Theme", url_path="SelectTheme", icon=":material/logout:")
         setup_pages =  [selectThemePage] + self.GetSetupPages()
 
