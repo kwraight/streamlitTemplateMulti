@@ -10,7 +10,12 @@ import re
 
 ### Page to select theme from input list
 def SelectThemePage():
-    st.header("Set Theme")
+    st.header("Front Page")
+    st.write("---")
+    if st.session_state.announcement is not None:
+        st.warning(st.session_state.announcement, icon="🎺")
+        st.write("---")
+    st.write("### Select Theme")
     sel_theme = st.selectbox("Choose your theme", st.session_state.sel_theme_list, index=st.session_state.sel_theme_list.index(None))
     if sel_theme==None:
         st.info("Please select theme")
