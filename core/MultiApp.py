@@ -162,7 +162,7 @@ class App:
         ### caching for setup pages: url_path is same as Page.self.__class__.__module__
         for sp in setup_pages:
             # st.write("setup caching for:",sp.url_path)
-            if sp.url_path in [None,"None"]:
+            if len(sp.url_path) < 1:
                 continue
             if sp.url_path not in st.session_state.keys():
                 st.session_state[sp.url_path]={}
