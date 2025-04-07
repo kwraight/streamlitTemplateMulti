@@ -10,10 +10,10 @@ import re
 
 ### Page to select theme from input list
 def SelectThemePage():
-    st.header("Front Page")
+    st.header(st.session_state.front['title'])
     st.write("---")
-    if st.session_state.announcement is not None:
-        st.warning(st.session_state.announcement, icon="🎺")
+    if st.session_state.front['announcement'] is not None:
+        st.warning(st.session_state.front['announcement'], icon="🎺")
         st.write("---")
     st.write("### Select Theme")
     sel_theme = st.selectbox("Choose your theme", st.session_state.sel_theme_list, index=st.session_state.sel_theme_list.index(None))
@@ -147,7 +147,8 @@ class App:
         theme=st.session_state.sel_theme
     
         ### setup pages        
-        st.session_state.announcement=self.announcement
+        if "front" not in st.session_state.keys():
+            st.session_state.front={'announcement':self.announcement, 'title':self.title}
         selectThemePage = st.Page(SelectThemePage, title="Set Theme", url_path="SelectTheme", icon=":material/logout:")
         setup_pages =  [selectThemePage] + self.GetSetupPages()
 
