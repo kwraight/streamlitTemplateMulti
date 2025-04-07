@@ -7,6 +7,8 @@ smalls={
     'other':"otherstuff"
 }
 
-myapp = App("multiApp", ":telescope: Streamlit Multi Theme App", smalls)
+announcment="Some announcment text __here__"
+
+myapp = App("multiApp", ":telescope: Streamlit Multi Theme App", smalls, announcment)
 
 myapp.main()
