@@ -30,7 +30,7 @@ class Page:
         # check page info. defined
         if st.session_state.debug:
             st.write("Search for cached object:")
-        fileName=self.__class__.__module__
+        fileName=self.__class__.__module__.replace('.py','').split('_')[-1]
         pageDict=None
         ### check session state attribute, stop if none
         for key in st.session_state.keys():
