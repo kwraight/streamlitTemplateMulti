@@ -88,10 +88,11 @@ class App:
                 foo = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(foo)
 
+                page_str=pf.replace('.py','').split('_')[-1]
                 content_dict[sf].append(
                     st.Page( foo.PageX().main,
-                        title=f"{pf.replace('.py','')}",
-                        url_path=f"{sf}_{pf.replace('.py','')}",
+                        title=f"{page_str}",
+                        url_path=f"{sf}_{page_str}",
                         icon=":material/help:"
                     )
                 )
