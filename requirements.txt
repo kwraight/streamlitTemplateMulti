@@ -5,3 +5,4 @@ quote==2.*
 protobuf==3.19.*
 altair==4.*
 numpy==1.25.*
+streamlit==1.42.2
