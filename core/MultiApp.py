@@ -16,7 +16,8 @@ def SelectThemePage():
         st.warning(st.session_state.front['announcement'], icon="🎺")
         st.write("---")
     st.write("### Select Theme")
-    sel_theme = st.selectbox("Choose your theme", st.session_state.sel_theme_list, index=st.session_state.sel_theme_list.index(None))
+    theme_list=sorted([str(x) for x in st.session_state.sel_theme_list], key=str.casefold)
+    sel_theme = st.selectbox("Choose your theme", theme_list, index=theme_list.index(str(None)))
     if sel_theme is not None:
         if st.button(f"Select {sel_theme}"):
             st.session_state.sel_theme = sel_theme
