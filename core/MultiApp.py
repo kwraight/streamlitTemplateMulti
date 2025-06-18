@@ -56,11 +56,11 @@ class App:
         ###########################
         st.sidebar.markdown("---")
         st.sidebar.title("Select Input")
-        theme = st.sidebar.selectbox("Select theme: ", sorted(tuple(self.themes)) )
+        theme = st.sidebar.selectbox("Select theme: ", sorted(tuple(self.themes), key=str.casefold) )
         #st.sidebar.markdown(self.init_pages(theme))
         self.init_pages(theme)
         #st.sidebar.markdown("themes: \n"+",".join(self.pages.keys()))
-        name = st.sidebar.radio("Select page: ", sorted(tuple(self.pages.keys())) )
+        name = st.sidebar.radio("Select page: ", sorted(tuple(self.pages.keys()), key=str.casefold) )
 
         # try:
         #     if st.session_state.debug:
