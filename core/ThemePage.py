@@ -72,21 +72,19 @@ class Page:
         ########################
         if st.session_state.info:
             st.info("ℹ __Information__")
-            st.write(f" - Page name:",self.name)
-            st.write(f" - Class info:",self.__class__)
+            st.write(f"**Page name**:",self.name)
+            # st.write(f" - Class info:",self.__class__)
 
-            st.write("Page Instructions:")
+            st.write("__Page Instructions__:")
             for i in self.instructions:
-                if "*" in i[0:3]:
-                    st.write(i)
-                else:
-                    st.write("  *",i)
+                st.write(i)
 
 
             ### hack file
             if st.checkbox("Upload hack file?"):
                 st.info("This is a _beta_ feature and may not be implemented on this page.")
                 st.write("#### Upload _formatted_ file")
+                st.write("Input file with parameters to be read as cached settings")
                 hack_file = st.file_uploader("Choose a file", type=['csv'])
                 if hack_file is not None:
                     st.write(" - file uploaded ✅")
